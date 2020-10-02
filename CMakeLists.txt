@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.17)
-project(libgui_sdl)
+project(gui-sdl)
 
 set(CMAKE_CXX_STANDARD 20)
 
 include_directories(include)
 include_directories(include/gui-sdl)
 
-add_library(gui-sdl
+add_library(${PROJECT_NAME}
         include/gui-sdl/gui/GuiButton.h
         include/gui-sdl/gui/GuiController.h
         include/gui-sdl/gui/GuiElement.h
