@@ -4,7 +4,7 @@ RUN dkp-pacman -Syu && dkp-pacman -S --noconfirm wiiu-sdl2-libs && dkp-pacman -S
 
 WORKDIR tmp_build
 COPY . .
-RUN make clean && make -j8 && mkdir -p /artifacts/wut/usr && cp -r lib /artifacts/wut/usr && cp -r include /artifacts/wut/usr
+RUN make -f Makefile.wiiu clean && make -f Makefile.wiiu -j8 && mkdir -p /artifacts/wut/usr && cp -r lib /artifacts/wut/usr && cp -r include /artifacts/wut/usr
 WORKDIR /artifacts
 
 FROM scratch

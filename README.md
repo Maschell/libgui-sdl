@@ -1,8 +1,7 @@
 # libgui-sdl
 
-
-## Dependencies
-To be able to use libgui, you need to install the following dependencies:
+## Dependencies (Wii U)
+To be able to use libgui-sdl, you need to install the following dependencies:
 
 - [wut](https://github.com/devkitPro/wut/)
 - Install the required portlibs and sdl2 via `(dkp-)pacman -Syu wiiu-portlibs wiiu-sdl2-libs`
