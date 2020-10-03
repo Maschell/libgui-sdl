@@ -17,36 +17,41 @@
 #include <cstdarg>
 #include <SDL2/SDL_surface.h>
 #include <gui/GuiText.h>
-#include <gui/system/libgui_log.h>
 
-/**
- * Constructor for the GuiText class.
- */
+GuiFont *GuiText::presetFont = nullptr;
+int32_t GuiText::presetSize = 28;
+SDL_Color GuiText::presetColor = (SDL_Color) {
+        255, 255, 255, 255
+};
 
-GuiText::GuiText(const std::string& text, SDL_Color c, FC_Font* gFont) {
-   this->text = text;
-   this->color = c;
-   this->fc_font = gFont;
-   this->doUpdateTexture = true;
-   this->texture.setParent(this);
+GuiText::GuiText(const std::string &t)
+        : GuiText(t, presetSize) {
+}
+
+GuiText::GuiText(const std::string &t, int32_t s)
+        : GuiText(t, s, presetColor) {
+}
+
+GuiText::GuiText(const std::string &t, int32_t s, SDL_Color c)
+        : GuiText(t, s, c, presetFont) {
+}
+
+GuiText::GuiText(const std::string &text, int32_t size, SDL_Color c, GuiFont *gFont) :
+        text(text),
+        color(c) {
+    this->gFont = gFont;
+    this->fc_font = gFont->getFont(size);
+    this->doUpdateTexture = true;
+    this->texture.setParent(this);
 }
 
 GuiText::~GuiText() {
     delete textureData;
 }
 
-void GuiText::draw(Renderer *renderer) {
-    if (!this->isVisible()) {
-        return;
-    }
-
-    updateTexture(renderer);
-
-    texture.draw(renderer);
-}
-
-void GuiText::process() {
-    GuiElement::process();
+void GuiText::setFontSize(int32_t size) {
+    this->fc_font = this->gFont->getFont(size);
+    this->doUpdateTexture = true;
 }
 
 void GuiText::setMaxWidth(float width) {
@@ -85,7 +90,7 @@ void GuiText::updateTexture(Renderer *renderer) {
             SDL_RenderClear(renderer->getRenderer());
 
             // Draw text to texture
-            FC_DrawColumn(fc_font, renderer->getRenderer(), 0, 0, maxWidth, text.c_str());
+            FC_DrawColumnColor(fc_font, renderer->getRenderer(), 0, 0, maxWidth, color, text.c_str());
 
             // Restore render target
             SDL_SetRenderTarget(renderer->getRenderer(), nullptr);
@@ -94,4 +99,27 @@ void GuiText::updateTexture(Renderer *renderer) {
         }
         doUpdateTexture = false;
     }
+}
+
+void GuiText::draw(Renderer *renderer) {
+    if (!this->isVisible()) {
+        return;
+    }
+
+    updateTexture(renderer);
+
+    texture.draw(renderer);
+}
+
+void GuiText::process() {
+    GuiElement::process();
+}
+
+void GuiText::setPresets(int32_t sz, const SDL_Color &c) {
+    GuiText::presetSize = sz;
+    GuiText::presetColor = c;
+}
+
+void GuiText::setPresetFont(GuiFont *f) {
+    GuiText::presetFont = f;
 }

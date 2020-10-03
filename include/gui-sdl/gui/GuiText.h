@@ -20,17 +20,31 @@
 #include <gui/GuiTextureData.h>
 #include <gui/video/SDL_FontCache.h>
 #include <gui/GuiImage.h>
+#include <gui/GuiFont.h>
 #include <mutex>
 #include <SDL2/SDL_ttf.h>
 
 //!Display, manage, and manipulate text in the GUI
 class GuiText : public GuiElement {
 public:
+    //!\param t Text
+    explicit GuiText(const std::string &t);
+
+    //!\param t Text
+    //!\param s Font size
+    GuiText(const std::string &t, int32_t s);
 
     //!\param t Text
     //!\param s Font size
     //!\param c Font color
-    GuiText(const std::string &t, SDL_Color c, FC_Font *font);
+    GuiText(const std::string &t, int32_t s, SDL_Color c);
+
+    //!\param t Text
+    //!\param s Font size
+    //!\param c Font color
+    //!\param font Font
+    GuiText(const std::string &t, int32_t s, SDL_Color c, GuiFont *font);
+
     ~GuiText() override;
 
     void draw(Renderer *pVideo) override;
@@ -39,9 +53,15 @@ public:
 
     void setMaxWidth(float width);
 
+    static void setPresetFont(GuiFont *f);
+
+    static void setPresets(int32_t sz, const SDL_Color & c);
+
+    void setFontSize(int32_t size);
+
 protected:
     GuiImage texture;
-    GuiTextureData* textureData = nullptr;
+    GuiTextureData *textureData = nullptr;
 
     std::string text;
     SDL_Color color;
@@ -53,4 +73,10 @@ protected:
     void updateSize();
 
     void updateTexture(Renderer *renderer);
+
+    GuiFont *gFont = nullptr;
+
+    static GuiFont *presetFont;
+    static SDL_Color presetColor;
+    static int32_t presetSize;
 };

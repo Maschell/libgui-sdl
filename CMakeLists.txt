@@ -38,4 +38,4 @@ add_library(${PROJECT_NAME}
         source/gui/input/ControllerManager.cpp
         source/gui/system/SDLSystem.cpp
         source/gui/video/SDL_FontCache.cpp
-        )
+        include/gui-sdl/gui/GuiFont.h source/gui/GuiFont.cpp)
