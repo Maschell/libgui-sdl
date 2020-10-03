@@ -7,3 +7,4 @@ libgui.layout
 obj/
 cmake-build-debug/
 .idea/
+cmake-build/

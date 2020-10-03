@@ -39,3 +39,6 @@ add_library(${PROJECT_NAME}
         source/gui/system/SDLSystem.cpp
         source/gui/video/SDL_FontCache.cpp
         include/gui-sdl/gui/GuiFont.h source/gui/GuiFont.cpp)
+
+install(TARGETS gui-sdl RUNTIME DESTINATION libs)
+install(DIRECTORY include/ DESTINATION include)
