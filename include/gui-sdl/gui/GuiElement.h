@@ -160,7 +160,7 @@ public:
                 pScale = parentElement->getScaleY();
             }
 
-            pCenterY += pHeight * 0.5f * pScale + getHeight() * 0.5f * getScaleY();
+            pCenterY -= pHeight * 0.5f * pScale - getHeight() * 0.5f * getScaleY();
         } else if (alignment & ALIGN_BOTTOM) {
             float pHeight = 0.0f;
             float pScale = 0.0f;
@@ -170,7 +170,7 @@ public:
                 pScale = parentElement->getScaleY();
             }
 
-            pCenterY -= pHeight * 0.5f * pScale - getHeight() * 0.5f * getScaleY();
+            pCenterY += pHeight * 0.5f * pScale - getHeight() * 0.5f * getScaleY();
         }
         return pCenterY;
     }
