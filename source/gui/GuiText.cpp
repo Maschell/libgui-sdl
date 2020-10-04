@@ -43,6 +43,7 @@ GuiText::GuiText(const std::string &text, int32_t size, SDL_Color c, GuiFont *gF
     this->fc_font = gFont->getFont(size);
     this->doUpdateTexture = true;
     this->texture.setParent(this);
+    this->updateSize();
 }
 
 GuiText::~GuiText() {
@@ -51,6 +52,7 @@ GuiText::~GuiText() {
 
 void GuiText::setFontSize(int32_t size) {
     this->fc_font = this->gFont->getFont(size);
+    updateSize();
     this->doUpdateTexture = true;
 }
 
@@ -58,6 +60,7 @@ void GuiText::setMaxWidth(float width) {
     this->maxWidth = width;
 
     // Rebuild the texture cache on next draw
+    updateSize();
     doUpdateTexture = true;
 }
 
