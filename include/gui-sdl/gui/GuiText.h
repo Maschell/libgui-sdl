@@ -59,6 +59,8 @@ public:
 
     void setFontSize(int32_t size);
 
+    void setColor(SDL_Color c);
+
 protected:
     GuiImage texture;
     GuiTextureData *textureData = nullptr;
