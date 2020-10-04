@@ -54,6 +54,10 @@ void GuiText::setColor(SDL_Color c) {
     this->color = c;
 }
 
+const std::string GuiText::getText() const {
+    return this->text;
+}
+
 void GuiText::setFontSize(int32_t size) {
     this->fc_font = this->gFont->getFont(size);
     updateSize();

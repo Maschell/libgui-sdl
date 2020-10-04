@@ -61,6 +61,8 @@ public:
 
     void setColor(SDL_Color c);
 
+    [[nodiscard]] const std::string getText() const;
+
 protected:
     GuiImage texture;
     GuiTextureData *textureData = nullptr;
