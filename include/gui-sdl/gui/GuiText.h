@@ -63,6 +63,8 @@ public:
 
     [[nodiscard]] const std::string getText() const;
 
+    void setText(const std::string& t);
+
 protected:
     GuiImage texture;
     GuiTextureData *textureData = nullptr;

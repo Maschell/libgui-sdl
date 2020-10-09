@@ -58,6 +58,12 @@ const std::string GuiText::getText() const {
     return this->text;
 }
 
+void GuiText::setText(const std::string& t) {
+    this->text = t;
+    this->updateSize();
+    this->doUpdateTexture = true;
+}
+
 void GuiText::setFontSize(int32_t size) {
     this->fc_font = this->gFont->getFont(size);
     updateSize();
