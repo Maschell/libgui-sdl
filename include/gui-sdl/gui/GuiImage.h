@@ -51,5 +51,5 @@ private:
     SDL_Color color = {0, 0, 0, 0};
 
 protected:
-    SDL_BlendMode blendMode;
+    SDL_BlendMode blendMode = SDL_BLENDMODE_NONE;
 };
