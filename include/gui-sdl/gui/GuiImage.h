@@ -41,10 +41,15 @@ public:
 
     void setTexture(GuiTextureData *tex);
 
+    int setBlendMode(SDL_BlendMode blendMode);
+
 private:
     GuiTextureData *texture = nullptr;
     bool freeTextureData = false;
 
     // Color of the rect that's drawn if the picture has no texture.
     SDL_Color color = {0, 0, 0, 0};
+
+protected:
+    SDL_BlendMode blendMode = SDL_BLENDMODE_NONE;
 };

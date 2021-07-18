@@ -47,10 +47,23 @@ void GuiImage::draw(Renderer *renderer) {
     if (texture) {
         texture->draw(renderer, rect, getAngle());
     } else {
+        // copy the texture to the rendering context
+        SDL_BlendMode mode;
+        SDL_GetRenderDrawBlendMode(renderer->getRenderer(), &mode);
+
+        // adjust blend mode
+        if(blendMode != mode){
+            SDL_SetRenderDrawBlendMode(renderer->getRenderer(), blendMode);
+        }
+
         SDL_SetRenderDrawColor(renderer->getRenderer(), color.r, color.g, color.b, color.a);
         SDL_RenderFillRect(renderer->getRenderer(), &rect);
         if(getAngle() != 0.0f){
             LG_Log("Drawing a rotated rect is not supported yet");
+        }
+        
+        if(blendMode != mode){
+            SDL_SetRenderDrawBlendMode(renderer->getRenderer(), mode);
         }
     }
 }
@@ -63,4 +76,9 @@ void GuiImage::setTexture(GuiTextureData *tex) {
         this->texture = tex;
         this->setSize(tex->getWidth(), tex->getHeight());
     }
+}
+
+int GuiImage::setBlendMode(SDL_BlendMode blendMode) {
+    this->blendMode = blendMode;
+    return this->texture ? this->texture->setBlendMode(blendMode) : 0;
 }
