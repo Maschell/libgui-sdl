@@ -44,6 +44,14 @@ void GuiImage::draw(Renderer *renderer) {
     rect.w = (int) (getScaleX() * getWidth());
     rect.h = (int) (getScaleY() * getHeight());
 
+    const char *origQuality = SDL_GetHint(SDL_HINT_RENDER_SCALE_QUALITY);
+    if(!origQuality)
+            origQuality = "nearest";
+
+    char quality[16];
+    snprintf(quality, 16, "%d", this->quality);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, quality);
+
     if (texture) {
         texture->draw(renderer, rect, getAngle());
     } else {
@@ -66,6 +74,8 @@ void GuiImage::draw(Renderer *renderer) {
             SDL_SetRenderDrawBlendMode(renderer->getRenderer(), mode);
         }
     }
+
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, origQuality);
 }
 
 void GuiImage::setTexture(GuiTextureData *tex) {
@@ -81,4 +91,10 @@ void GuiImage::setTexture(GuiTextureData *tex) {
 int GuiImage::setBlendMode(SDL_BlendMode blendMode) {
     this->blendMode = blendMode;
     return this->texture ? this->texture->setBlendMode(blendMode) : 0;
+}
+
+void GuiImage::setScaleQuality(int quality)
+{
+    if(quality > -1 && quality < 3)
+        this->quality = quality;
 }
