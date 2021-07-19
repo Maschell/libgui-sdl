@@ -20,6 +20,12 @@
 #include <gui/GuiElement.h>
 #include <gui/GuiTextureData.h>
 
+enum {
+    SCALE_NEAREST = 0,
+    SCALE_LINEAR =  1,
+    SCALE_BEST =    2,
+};
+
 //!Display, manage, and manipulate images in the GUI
 class GuiImage : public GuiElement {
 public:
@@ -43,6 +49,8 @@ public:
 
     int setBlendMode(SDL_BlendMode blendMode);
 
+    void setScaleQuality(int quality);
+
 private:
     GuiTextureData *texture = nullptr;
     bool freeTextureData = false;
@@ -52,4 +60,6 @@ private:
 
 protected:
     SDL_BlendMode blendMode = SDL_BLENDMODE_NONE;
+    int quality = SCALE_NEAREST;
+
 };
