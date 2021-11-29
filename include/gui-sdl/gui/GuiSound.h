@@ -16,6 +16,7 @@
  ****************************************************************************/
 #pragma once
 
+#include <cstdio>
 #include <gui/GuiElement.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -34,6 +35,9 @@ public:
 
     //!Load a file and replace the old one
     bool Load(const char *filepath);
+
+    //!Load a buffer and replace the old one
+    bool LoadBuffer(void *buffer, uint32_t size, bool freeSrc = false);
 
     //!Start sound playback
     void Play();
@@ -61,7 +65,10 @@ public:
     //!\param l Loop (true to loop)
     void SetLoop(bool l);
 
+private:
     Mix_Chunk *music = nullptr;
     int32_t loops = 0;
     int32_t playedOn = -1;
+
+    void Cleanup();
 };

@@ -17,8 +17,7 @@
 #include <gui/GuiSound.h>
 
 GuiSound::GuiSound(void *buffer, uint32_t filesize, bool freeSrc) {
-    SDL_RWops *rw = SDL_RWFromMem(buffer, filesize);
-    music = Mix_LoadWAV_RW(rw, freeSrc);
+    LoadBuffer(buffer, filesize, freeSrc);
 }
 
 GuiSound::GuiSound(const char *filepath) {
@@ -26,6 +25,10 @@ GuiSound::GuiSound(const char *filepath) {
 }
 
 GuiSound::~GuiSound() {
+    Cleanup();
+}
+
+void GuiSound::Cleanup() {
     if (music) {
         Mix_FreeChunk(music);
         music = nullptr;
@@ -33,7 +36,33 @@ GuiSound::~GuiSound() {
 }
 
 bool GuiSound::Load(const char *filepath) {
-    music = Mix_LoadWAV(filepath);
+    FILE *file = fopen(filepath, "r");
+    if(file != NULL) {
+        off_t i = ftello(file);
+        if(fseek(file, 0, SEEK_END) == 0) {
+            off_t size = ftello(file);
+            if(size != -1) {
+                void *buffer = malloc(size);
+                if(buffer != NULL) {
+                    fseeko(file, i, SEEK_SET);
+                    if(fread(buffer, size, 1, file) == 1)
+                        return LoadBuffer(buffer, size, true);
+
+                    free(buffer);
+                }
+            }
+        }
+
+        fclose(file);
+    }
+
+    return false;
+}
+
+bool GuiSound::LoadBuffer(void *buffer, uint32_t size, bool freeSrc) {
+    Cleanup();
+    SDL_RWops *rw = SDL_RWFromMem(buffer, size);
+    music = Mix_LoadWAV_RW(rw, freeSrc);
     return music != nullptr;
 }
 
