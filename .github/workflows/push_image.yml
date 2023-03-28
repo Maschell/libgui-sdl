@@ -15,7 +15,7 @@ jobs:
         echo ::set-env name=REPOSITORY_NAME::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//" | tr '[:upper:]' '[:lower:]')
         echo ::set-env name=REPOSITORY_OWNER::$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $1}' |  sed 's/[^a-zA-Z0-9]//g' | tr '[:upper:]' '[:lower:]')
     - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
+      uses: elgohr/Publish-Docker-Github-Action@v5
       with:
         name: ${{ env.REPOSITORY_OWNER }}/${{ env.REPOSITORY_NAME }}
         username: ${{ secrets.DOCKER_USERNAME }}
